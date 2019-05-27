@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionMenu fab_menu;
     private com.github.clans.fab.FloatingActionButton add,faq,about_us;
 
+    public AppCompatEditText phone,time;
+
     private Context context=this;
     private RecyclerView recycler;
     private ContentAdapter adapter;
@@ -55,9 +57,17 @@ public class MainActivity extends AppCompatActivity
 
         recycler=(RecyclerView) findViewById (R.id.recycler);
 
-        recycler.setLayoutManager(new LinearLayoutManager(this));
-        adapter=new ContentAdapter(list);
-        recycler.setAdapter(adapter);
+        if(recycler ==null){
+            Toaster.makeText(getApplicationContext(),"No Data", Toaster.CONFUSING, true);
+        }
+
+        else {
+            recycler.setLayoutManager(new LinearLayoutManager(this));
+            adapter=new ContentAdapter(list);
+            recycler.setAdapter(adapter);
+        }
+
+
     }
 
     private void fabAction()
@@ -69,21 +79,27 @@ public class MainActivity extends AppCompatActivity
                 final Dialog dialog=new Dialog(context);
                 dialog.setContentView(R.layout.activity_info);
 
-                AppCompatEditText phone=(AppCompatEditText) dialog.findViewById (R.id.phn);
-                AppCompatEditText time=(AppCompatEditText) dialog.findViewById (R.id.time);
+                phone=(AppCompatEditText) dialog.findViewById (R.id.phn);
+                time=(AppCompatEditText) dialog.findViewById (R.id.time);
 
-                String p=phone.getText().toString();
-                String t=time.getText().toString();
 
-                final ContentModel model=new ContentModel();
-
-                model.setPhone(p);
-                model.setTime(t);
 
                 AppCompatButton submit=(AppCompatButton) dialog.findViewById (R.id.submit);
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        String p=phone.getText().toString();
+                        String t=time.getText().toString();
+
+
+
+                        final ContentModel model=new ContentModel();
+
+                        Toaster.makeText(getApplicationContext(), p + t, Toaster.INFO,true);
+
+                        model.setPhone(p);
+                        model.setTime(t);
+
                         list.add(model);
                         adapter.notifyDataSetChanged();
                         Toaster.makeText(getApplicationContext(),"Data Saved Successfully", Toaster.SUCCESS,true);

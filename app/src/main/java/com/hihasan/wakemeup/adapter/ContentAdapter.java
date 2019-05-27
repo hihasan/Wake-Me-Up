@@ -61,7 +61,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
         viewHolder.relative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toaster.makeText(v.getContext(),content.phone,Toaster.INFO,true);
+                Toaster.makeText(v.getContext(),"Call Call Call",Toaster.INFO,true);
             }
         });
 
