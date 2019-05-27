@@ -6,11 +6,11 @@ public class ContentModel
     public String time;
 
 
-    public ContentModel(String phone, String time){
-        this.phone=phone;
-        this.time=time;
-
-    }
+//    public ContentModel(String phone, String time){
+//        this.phone=phone;
+//        this.time=time;
+//
+//    }
 
     public String getPhone(){return phone;}
     public void setPhone(String phone){this.phone=phone;}

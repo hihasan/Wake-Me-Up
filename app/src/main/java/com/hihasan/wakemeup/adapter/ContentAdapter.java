@@ -13,12 +13,15 @@ import com.hihasan.prisom.toaster.Toaster;
 import com.hihasan.wakemeup.R;
 import com.hihasan.wakemeup.model.ContentModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHolder>
 {
-    public ContentModel[]model;
+    List<ContentModel> list=new ArrayList<>();
 
-    public ContentAdapter(ContentModel[]model){
-        this.model=model;
+    public ContentAdapter(List<ContentModel> list){
+        this.list=list;
     }
     @NonNull
     @Override
@@ -33,9 +36,9 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position)
     {
-        final ContentModel content= model[position];
-        viewHolder.phone.setText(model[position].getPhone());
-        viewHolder.time.setText(model[position].getTime());
+        final ContentModel content= list.get(position);
+        viewHolder.phone.setText(list.get(position).getPhone());
+        viewHolder.time.setText(list.get(position).getTime());
 
         viewHolder.refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +51,9 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 Toaster.makeText(v.getContext(),"Delete Current Entry", Toaster.INFO,true);
+                list.remove(position);
+                notifyDataSetChanged();
+
             }
         });
 
@@ -63,7 +69,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return model.length;
+        return list.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder

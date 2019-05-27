@@ -8,12 +8,5 @@ public class Utils
     public static int APP_LOAD_TIME=2000;
 
 
-    public static void model(){
-        model=new ContentModel[]{
-          new ContentModel("01737512549","6.00"),
-          new ContentModel("01737512549","6.00"),
-          new ContentModel("01737512549","6.00"),
-          new ContentModel("01737512549","6.00"),
-        };
-    }
+
 }

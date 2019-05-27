@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,7 +22,10 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.hihasan.prisom.toaster.Toaster;
 import com.hihasan.wakemeup.R;
 import com.hihasan.wakemeup.adapter.ContentAdapter;
-import com.hihasan.wakemeup.utils.Utils;
+import com.hihasan.wakemeup.model.ContentModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     private Context context=this;
     private RecyclerView recycler;
     private ContentAdapter adapter;
+    List<ContentModel> list=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +51,12 @@ public class MainActivity extends AppCompatActivity
 
         fabAction();
 
-        Utils.model();
+
 
         recycler=(RecyclerView) findViewById (R.id.recycler);
-        adapter=new ContentAdapter(Utils.model);
+
         recycler.setLayoutManager(new LinearLayoutManager(this));
+        adapter=new ContentAdapter(list);
         recycler.setAdapter(adapter);
     }
 
@@ -62,6 +68,28 @@ public class MainActivity extends AppCompatActivity
 
                 final Dialog dialog=new Dialog(context);
                 dialog.setContentView(R.layout.activity_info);
+
+                AppCompatEditText phone=(AppCompatEditText) dialog.findViewById (R.id.phn);
+                AppCompatEditText time=(AppCompatEditText) dialog.findViewById (R.id.time);
+
+                String p=phone.getText().toString();
+                String t=time.getText().toString();
+
+                final ContentModel model=new ContentModel();
+
+                model.setPhone(p);
+                model.setTime(t);
+
+                AppCompatButton submit=(AppCompatButton) dialog.findViewById (R.id.submit);
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        list.add(model);
+                        adapter.notifyDataSetChanged();
+                        Toaster.makeText(getApplicationContext(),"Data Saved Successfully", Toaster.SUCCESS,true);
+                        dialog.dismiss();
+                    }
+                });
 
                 AppCompatButton cancel=(AppCompatButton) dialog.findViewById(R.id.cancel);
                 cancel.setOnClickListener(new View.OnClickListener() {
