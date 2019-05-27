@@ -1,6 +1,7 @@
 package com.hihasan.wakemeup.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,7 +36,22 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
         final ContentModel content= model[position];
         viewHolder.phone.setText(model[position].getPhone());
         viewHolder.time.setText(model[position].getTime());
-        viewHolder.cancel.setText(model[position].getCancel());
+
+        viewHolder.refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toaster.makeText(v.getContext(),"Update Current Entry", Toaster.INFO,true);
+            }
+        });
+
+        viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toaster.makeText(v.getContext(),"Delete Current Entry", Toaster.INFO,true);
+            }
+        });
+
+
         viewHolder.relative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,14 +68,16 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        public AppCompatTextView phone,time,cancel;
+        public AppCompatTextView phone,time;
+        public AppCompatImageView refresh,delete;
         public RelativeLayout relative;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.phone=(AppCompatTextView) itemView.findViewById (R.id.phone);
             this.time=(AppCompatTextView) itemView.findViewById (R.id.time);
-            this.cancel=(AppCompatTextView) itemView.findViewById (R.id.cancel);
+            this.refresh=(AppCompatImageView) itemView.findViewById (R.id.refresh);
+            this.delete=(AppCompatImageView) itemView.findViewById (R.id.delete);
             this.relative=(RelativeLayout) itemView.findViewById (R.id.card);
         }
     }

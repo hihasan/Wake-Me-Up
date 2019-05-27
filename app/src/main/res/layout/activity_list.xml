@@ -32,16 +32,29 @@
                 android:text="Time Text"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"/>
-            <android.support.v7.widget.AppCompatTextView
+            <LinearLayout
                 android:id="@+id/cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/time"
-                android:layout_marginTop="8sp"
-                android:fontFamily="@font/alice"
-                android:text="Cancel"
-                android:textSize="16sp"
-                android:textColor="@android:color/holo_red_light"/>
+                android:layout_marginTop="24sp"
+                android:layout_marginBottom="8sp"
+                android:orientation="horizontal">
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/refresh"
+                    android:layout_width="24sp"
+                    android:layout_height="24sp"
+                    android:layout_marginRight="9sp"
+                    android:src="@drawable/refresh"
+                    android:tint="@color/bluecolor_A700"/>
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/delete"
+                    android:layout_width="24sp"
+                    android:layout_height="24sp"
+                    android:layout_marginLeft="8sp"
+                    android:src="@drawable/delete"
+                    android:tint="@color/bluecolor_A700"/>
+            </LinearLayout>
         </RelativeLayout>
 
 

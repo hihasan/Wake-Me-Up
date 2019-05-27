@@ -10,10 +10,10 @@ public class Utils
 
     public static void model(){
         model=new ContentModel[]{
-          new ContentModel("01737512549","6.00","cancel"),
-          new ContentModel("01737512549","6.00","cancel"),
-          new ContentModel("01737512549","6.00","cancel"),
-          new ContentModel("01737512549","6.00","cancel"),
+          new ContentModel("01737512549","6.00"),
+          new ContentModel("01737512549","6.00"),
+          new ContentModel("01737512549","6.00"),
+          new ContentModel("01737512549","6.00"),
         };
     }
 }
