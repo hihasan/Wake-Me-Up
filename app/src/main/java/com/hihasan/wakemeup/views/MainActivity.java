@@ -2,30 +2,30 @@ package com.hihasan.wakemeup.views;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.hihasan.prisom.toaster.Toaster;
 import com.hihasan.wakemeup.R;
 import com.hihasan.wakemeup.adapter.ContentAdapter;
 import com.hihasan.wakemeup.model.ContentModel;
+import com.hihasan.wakemeup.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.hihasan.wakemeup.utils.Utils.MyPreferences;
+import static com.hihasan.wakemeup.utils.Utils.PHONE;
+import static com.hihasan.wakemeup.utils.Utils.TIME;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -51,21 +51,29 @@ public class MainActivity extends AppCompatActivity
         faq=(com.github.clans.fab.FloatingActionButton) findViewById (R.id.faq);
         about_us=(com.github.clans.fab.FloatingActionButton) findViewById (R.id.about_us);
 
+        Utils.sharedPreferences=getSharedPreferences(MyPreferences, Context.MODE_PRIVATE);
+
         fabAction();
 
 
 
+
+
         recycler=(RecyclerView) findViewById (R.id.recycler);
-
-        if(recycler ==null){
-            Toaster.makeText(getApplicationContext(),"No Data", Toaster.CONFUSING, true);
-        }
-
-        else {
             recycler.setLayoutManager(new LinearLayoutManager(this));
             adapter=new ContentAdapter(list);
             recycler.setAdapter(adapter);
-        }
+            String phoneValue= Utils.sharedPreferences.getString(PHONE,"");
+            String timeValue=Utils.sharedPreferences.getString(TIME,"");
+
+            final ContentModel model=new ContentModel();
+
+            model.setPhone(phoneValue);
+            model.setTime(timeValue);
+
+            list.add(model);
+            adapter.notifyDataSetChanged();
+
 
 
     }
@@ -92,16 +100,17 @@ public class MainActivity extends AppCompatActivity
                         String t=time.getText().toString();
 
 
+                        SharedPreferences.Editor editor=Utils.sharedPreferences.edit();
 
-                        final ContentModel model=new ContentModel();
+                        editor.putString(PHONE,p);
+                        editor.putString(TIME,t);
+                        editor.commit();
+
+
 
                         Toaster.makeText(getApplicationContext(), p + t, Toaster.INFO,true);
 
-                        model.setPhone(p);
-                        model.setTime(t);
 
-                        list.add(model);
-                        adapter.notifyDataSetChanged();
                         Toaster.makeText(getApplicationContext(),"Data Saved Successfully", Toaster.SUCCESS,true);
                         dialog.dismiss();
                     }
@@ -123,13 +132,28 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Toaster.makeText(getApplicationContext(),"Action Needed", Toaster.INFO,true);
+
             }
         });
 
         about_us.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toaster.makeText(getApplicationContext(), "Action Needed", Toaster.INFO, true);
+                final Dialog dialog=new Dialog(context);
+                dialog.setContentView(R.layout.activity_about_us);
+
+                AppCompatTextView txt=(AppCompatTextView) dialog.findViewById (R.id.txt);
+                txt.setText("Wake Me Up\n V1.0");
+
+                AppCompatButton close=(AppCompatButton) dialog.findViewById (R.id.close);
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
             }
         });
     }
